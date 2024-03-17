@@ -1,0 +1,117 @@
+{% extends 'mymusic_home/layout_public.html' %}
+{% load static %}
+
+{% block middleContainer-content %}
+    <!-- Button Show Song Player -->
+    <div id="buttonShowSongPlayerContainer" class="col l-12 m-12 c-12 buttonShowSongPlayerContainer">
+        <button class="buttonShowSongPlayer" onclick="ShowSongPlayer()"><span class="material-symbols-outlined">
+            arrow_left
+        </span></button>
+    </div>
+    <!-- slide images -->
+    <div id="slideShow" class="row slideShow">
+        <div class="col l-12 m-12 c-12 listImages">
+            {% if newss %}
+                {% for news in newss %}
+                    <img class="imgInSlide" src="{{news.ImageURL}}" alt="{{news.name}}">
+                {% endfor %}
+            {% else %}
+                <img class="imgInSlide" src="{% static 'mymusic_home/images/hinh1Slide.png' %}" alt="">
+                <img class="imgInSlide" src="{% static 'mymusic_home/images/hinh2Slide.png' %}" alt="">
+                <img class="imgInSlide" src="{% static 'mymusic_home/images/hinh3Slide.png' %}" alt="">
+                <img class="imgInSlide" src="{% static 'mymusic_home/images/hinh4Slide.png' %}" alt="">
+                <img class="imgInSlide" src="{% static 'mymusic_home/images/hinh5Slide.png' %}" alt="">
+            {% endif %}
+        </div>
+        <div class="col l-12 m-12 c-12 btns">
+            <div id="btnLeftSlideShow" class="btnLeft btn"><span class="material-symbols-outlined">arrow_left</span></div>
+            <div id="btnRightSlideShow" class="btnRight btn"><span class="material-symbols-outlined">arrow_right</span></div>
+        </div>
+    </div>
+
+    <!-- Phần danh sách thể loại -->
+    <div id="slideGenre" class="row slide slideGenre">
+        <div class="col l-12 m-12 c-12 titleGenre">
+            <span class="title">Thể Loại</span>
+        </div>
+        <div class="col l-12 m-12 c-12 listGenre">
+            {% if genres %}
+                {% for genre in genres %}
+                <div class="col l-3 m-3 c-3 genre">
+                    <div class="genreContainer">
+                        <a href="{% url "listByGenre" %}?genre={{genre.slug}}"><img src="{{genre.ImageURL}}" alt=""></a>
+                        <a class="aGenre" href="{% url "listByGenre" %}?genre={{genre.slug}}" class="genreName" style="background: #3b3b3c; border: none; color: whitesmoke; padding: 5px; border-radius: 8px; cursor: pointer;  text-decoration: none;" >{{genre.name}}</a>
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+                <div class="col l-3 m-3 c-3 genre">
+                    <div class="genreContainer">
+                        <img src="" alt="">
+                        <a href="#" class="genreName" style="background: #3b3b3c; border: none; color: whitesmoke; padding: 5px; border-radius: 8px; cursor: pointer;" >Tên Thể Loại</a>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Phần danh sách nghệ sĩ -->
+    <div id="slideArtist" class="row slide slideArtist">
+        <div class="col l-12 m-12 c-12 titleArtist">
+            <span class="title">Nghệ sĩ</span>
+        </div>
+        <div class="col l-12 m-12 c-12 listArtist">
+            {% if artists %}
+                {% for artist in artists %}
+                <div class="col l-3 m-3 c-3 artist">
+                    <div class="artistContainer">
+                        <a href="{% url "listByArtist" %}?artist={{artist.slug}}" ><img src="{{artist.ImageURL}}" alt=""></a>
+                        <a class="aArtist" href="{% url "listByArtist" %}?artist={{artist.slug}}" class="artistName" style="background: #3b3b3c; border: none; color: whitesmoke; padding: 5px; border-radius: 8px; cursor: pointer; text-decoration: none;"  >{{artist.name}}</a>
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+                <div class="col l-3 m-3 c-3 artist">
+                    <div class="artistContainer">
+                        <img src="" alt="">
+                        <a href="#" class="artistName" style="background: #3b3b3c; border: none; color: whitesmoke; padding: 5px; border-radius: 8px; cursor: pointer;"  >Tên Nghệ Sĩ</a>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <br>
+    <!-- Phần danh sách tất cả nhạc -->
+    <div class="row DspBody">
+        <div class="col l-12 m-12 c-12 titleArtist">
+            <span class="title">Danh Sách Nhạc</span>
+        </div>
+        {% for song in songs %}
+            <div class="col l-12 m-12 c-12 DspSong">
+                <div class="row">
+                    <div class="col l-3 m-3 c-3 DspSongImg">
+                        <img src="{{song.ImageURL}}" alt="{{song.name}}">
+                    </div>
+                    <div class="col l-9 m-9 c-9 DspSongInfor">
+                        <a href="?nameSong={{song.id_song}}" style="font-weight:700;" >
+                            {{song.name}}
+                        </a>
+                        <h5>{{song.id_artist}}</h5>
+                        <h6>Người đăng : <span style="font-weight:300;" >{{song.id_user}}</span></h6>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    <style>
+        .aGenre:hover{
+            background: brown;
+        }
+        .aArtist:hover{
+            background: brown;
+        }
+    </style>
+{% endblock middleContainer-content %}
+

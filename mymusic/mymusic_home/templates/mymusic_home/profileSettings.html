@@ -1,0 +1,64 @@
+{% extends 'mymusic_home/layout_public.html' %}
+{% load static %}
+
+{% block profileSettings %}
+<!-- Button Show Song Player -->
+<div id="buttonShowSongPlayerContainer" class="col l-12 m-12 c-12 buttonShowSongPlayerContainer">
+    <button class="buttonShowSongPlayer" onclick="ShowSongPlayer()"><span class="material-symbols-outlined">
+        arrow_left
+    </span></button>
+</div>
+<!-- Button ComeBack -->
+<div class="row buttonComebackInSearch">
+    <div class="col l-12 m-12 c-12" >
+        <button onclick="history.back()" class="btnBack"><span class="material-symbols-outlined">
+            arrow_back
+        </span></button>
+    </div>
+</div>
+<h1>Settings</h1>
+<div class="row ContainerBtnLogout">
+    <div class="col l-12 m-12 c-12">
+        <a href="{% url "logout" %}" class="BtnLogout" >LOG OUT</a>
+    </div>
+</div>
+</form>
+{% comment %} CSS {% endcomment %}
+<style>
+    .buttonComebackInSearch{
+        border-bottom: .5px solid #3b3b3c;
+        padding: 11px;
+    
+    }
+    .buttonComebackInSearch button{
+        float: right;
+        border:none;
+        background: black;
+        padding: 4px;
+        border-radius: 8px;
+        cursor: pointer;
+    }
+    .buttonComebackInSearch button:hover{
+        background: #3b3b3c;
+    }
+
+    .ContainerBtnLogout{
+        width: 100%;
+    }
+    .BtnLogout{
+        width: 100%;
+        border: none;
+        background: black;
+        padding: 18px;
+        border-radius: 10px;
+        cursor: pointer;
+        display: block;
+        text-align:center;
+        text-decoration: none;
+    }
+    .BtnLogout:hover{
+        background: #3b3b3c;
+        transition: all .3s;
+    }
+</style> 
+{% endblock profileSettings %}

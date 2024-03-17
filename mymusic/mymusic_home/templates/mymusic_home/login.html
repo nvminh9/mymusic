@@ -1,0 +1,72 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng nhập | mymusic</title>
+    <!-- Link CSS thư viện Grid System -->
+    <link rel="stylesheet" href="{% static "mymusic_home/css/library_grid_system.css" %}">
+    <!-- Link CSS -->
+    <link rel="stylesheet" href="{% static "mymusic_home/css/login.css" %}">
+    <!-- Link Google Icon -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <!-- Favicon -->
+    <link type="image/png" sizes="32x32" rel="icon" href="{% static "mymusic_home/images/logo/FaviconWhite.png" %}">
+    <!-- Link Google Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="grid wide wrapper">
+        <div class="row container">
+            <div class="col l-12 m-12 c-12 logo">
+                <img src="{% static "mymusic_home/images/logo/logoWhiteTransparent.png" %}" alt="Logo">
+            </div>
+            <div class="col l-4 l-o-4 m-8 m-o-2 c-12 login">
+                <div class="col l-12 m-12 c-12">
+                    <h1>Đăng nhập</h1>
+                </div>
+                <div class="col l-12 m-12 c-12">
+                    <form action="" method="POST">
+                        {% csrf_token %}
+                        {% for message in messages %}
+                            <span id="message" style="color: brown;">{{message}}</span> <br>
+                        {% endfor %}
+                        <input type="text" name="username" placeholder="Tài khoản"> <br>
+                        <input type="password" name="password" placeholder="Mật khẩu"> <br>
+                        <input class="tieptuc" type="submit" name="submit" value="Login">
+                    </form>
+                </div>
+                <div class="col l-12 m-12 c-12">
+                    <h5>Chưa có mymusic ? <a href="{% url "register" %}">Đăng ký</a></h5>
+                </div>
+                <div class="col l-8 l-o-2 m-6 m-o-3 c-8 c-o-2" style="height: 25%;">
+                    <div class="otherWayLogin">
+                        <h4>hoặc</h4>
+                        <button class="loginWithGoogle"><img src="https://accounts.scdn.co/sso/images/new-google-icon.72fd940a229bc94cf9484a3320b3dccb.svg" alt=""></button>
+                        <button class="loginWithFacebook"><img src="https://accounts.scdn.co/sso/images/new-facebook-icon.eae8e1b6256f7ccf01cf81913254e70b.svg" alt=""></button>
+                        <button class="loginWithApple"><img src="https://therewardboss.com/wp-content/uploads/2016/11/apple-logo-300x300.png" alt="" style="width: 40px; padding-bottom: 3px;"></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="grid wide wrapper">
+        <div class="row container" style="margin-top: 10px; background: linear-gradient(0deg, rgba(0, 0, 0, 0.529) 0%, rgba(154, 154, 154, 0.09) 100%);">
+            <div class="col l-12 m-12 c-12" style="text-align: center;">
+                <h1 style="color: whitesmoke; font-size: 45px; font-weight: 500;">Express yourself through your <span style="font-size: 50px; font-weight: 600; background: -webkit-linear-gradient(#eee, #333); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">music taste</span></h1>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
+<style>
+body{
+    background-image: url({% static "mymusic_home/images/login_backgr.png" %});
+}
+
+</style>

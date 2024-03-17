@@ -1,0 +1,115 @@
+/* CSS tổng thể */
+*{
+    font-family: 'Ubuntu', sans-serif;
+}
+html{
+    height: 100%;
+    scroll-behavior: smooth;    
+}
+body{
+    /* height: 100%; */
+    width: auto;
+    margin: 0;
+    padding: 8px;
+    background-repeat: repeat;
+    background-size: 340px;
+}
+/*  */
+/* CSS Wrapper */
+.wrapper{
+    background: linear-gradient(0deg, rgba(154, 154, 154, 0.252) 0%, rgba(0, 0, 0, 0.811) 100%);
+    backdrop-filter: blur(2px);
+    /* height: 100%; */
+    border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+/*  */
+/* CSS container */
+.container{
+    height: 100%;
+    padding: 20px;
+}
+/*  */
+/* CSS logo */
+.logo{
+    height: 15%;
+    padding: 5px;
+}
+.logo img{
+    float: left;
+    width: 230px;
+}
+/*  */
+/* CSS login */
+.login{
+    height: 85%;
+    /* background-color: #a52a2ad6; */
+    background-color: #ffffffcc;
+    backdrop-filter: blur(10px);
+    border-radius: 10px;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+    text-align: center;
+    padding-bottom: 20px;
+}
+.login form{
+
+}
+.login form input{
+    margin: 10px 0px 10px 0px;
+    border: 0.3px solid darkgrey;
+    border-radius: 10px;
+    padding: 20px;
+}
+
+.login .tieptuc{
+    cursor: pointer;
+}
+.login .tieptuc:hover{
+    border: .3px solid brown;
+}
+.login h5{
+    font-weight: 400;
+    font-size: 13.3px;
+}
+.login h4{
+    font-size: 13.3px;
+    font-weight: 400;
+    margin: 0px;
+    padding: 10px;
+    border-bottom: .3px solid darkgrey;
+    /* margin-top: 10px; */
+}
+.login h5 a:hover{
+    color: brown;
+}
+.login .otherWayLogin{
+    background-color: whitesmoke;
+    border: 0.3px solid darkgrey;
+    height: 100%;
+    border-radius: 10px;
+    text-align: center;
+}
+.login .otherWayLogin button{
+    border: none;
+    background-color: transparent;
+   
+}
+.login .otherWayLogin button img{
+    width: 40px;
+    margin: 20px 0px 20px 0px;
+    transition: 0.30s;
+    -webkit-transition: 0.30s;
+    -moz-transition: 0.30s;
+    -ms-transition: 0.30s;
+    -o-transition: 0.30s;
+    cursor: pointer;
+}
+.login .otherWayLogin button img:hover{
+    transform: scale(1.1);
+    transition: 0.30s;
+    -webkit-transition: 0.30s;
+    -moz-transition: 0.30s;
+    -ms-transition: 0.30s;
+    -o-transition: 0.30s;
+}
+/*  */

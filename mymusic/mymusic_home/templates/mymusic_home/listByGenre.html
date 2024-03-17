@@ -1,0 +1,73 @@
+{% extends 'mymusic_home/layout_public.html' %}
+{% load static %}
+
+{% block listByGenre %}
+<!-- Button Show Song Player -->
+<div id="buttonShowSongPlayerContainer" class="col l-12 m-12 c-12 buttonShowSongPlayerContainer">
+    <button class="buttonShowSongPlayer" onclick="ShowSongPlayer()"><span class="material-symbols-outlined">
+        arrow_left
+    </span></button>
+</div>
+<!-- Button ComeBack -->
+<div class="row buttonComebackInSearch">
+    <div class="col l-12 m-12 c-12" >
+        <button onclick="history.back()" class="btnBack"><span class="material-symbols-outlined">
+            arrow_back
+        </span></button>
+    </div>
+</div>
+<h2>Danh sách nhạc theo thể loại ...</h2>
+
+{% comment %} <div class="row DspContainer">
+    <div class="col l-12 m-12 c-12 DspHeadContainer">
+        <div class="row DspHead">
+            <div class="col l-4 m-12 c-12 DspImg">
+                <img src="{% static '' %}" alt="">
+            </div>
+            <div class="col l-8 m-12 c-12 DspInfor">
+                <h2>Tên Thể Loại</h2>
+            </div>
+        </div>
+    </div>
+</div> {% endcomment %}
+<div class="row DspBody">
+    {% comment %} Bài trong Dsp {% endcomment %}
+    {% for song in genresSong %}
+    <div class="col l-12 m-12 c-12 DspSong">
+        <div class="row">
+            <div class="col l-4 m-3 c-3 DspSongImg">
+                <img src="{{song.ImageURL}}" alt="{{song.name}}">
+            </div>
+            <div class="col l-8 m-9 c-9 DspSongInfor">
+                <a href="#" style="font-weight:700;">
+                    {{song.name}}
+                </a>
+                {% comment %} <h6>{{song.artist}}</h6>
+                <h6>{{song.genre}}</h6> {% endcomment %}
+                <h6>Người đăng : <span style="font-weight: 300;">{{song.id_user}}</span></h6>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<style>
+.buttonComebackInSearch{
+    border-bottom: .5px solid #3b3b3c;
+    padding: 11px;
+
+}
+.buttonComebackInSearch button{
+    float: right;
+    border:none;
+    background: black;
+    padding: 4px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+.buttonComebackInSearch button:hover{
+    background: #3b3b3c;
+}
+
+</style>
+{% endblock listByGenre %}

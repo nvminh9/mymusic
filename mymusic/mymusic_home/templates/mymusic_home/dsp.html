@@ -1,0 +1,81 @@
+{% extends 'mymusic_home/layout_public.html' %}
+{% load static %}
+
+{% block Dsp %}
+    <!-- Button Show Song Player -->
+    <div id="buttonShowSongPlayerContainer" class="col l-12 m-12 c-12 buttonShowSongPlayerContainer">
+        <button class="buttonShowSongPlayer" onclick="ShowSongPlayer()"><span class="material-symbols-outlined">
+            arrow_left
+        </span></button>
+    </div>
+    
+    <div id="DspContainer"  class="row DspContainer">
+        <div id="buttonSettingsProfile" class="col l-12 m-12 c-12 buttonSettingsProfile" >
+                <button onclick="history.back()" class="btnBack"><span class="material-symbols-outlined">
+                    arrow_back
+                </span></button>
+        </div>
+        <div class="col l-12 m-12 c-12 DspHeadContainer">
+            <div class="row DspHead">
+                {% for info in playlistInfo %}
+                <div class="col l-4 m-12 c-12 DspImg">
+                    <img src="{{info.ImageURL}}" alt="Hình của {{info.name}}">
+                </div>
+                <div class="col l-8 m-12 c-12 DspInfor">
+                    <h1 style="background:black; color:whitesmoke; padding:5px; border-radius:6px; width:fit-content;" >{{info.name}}</h1>
+                    <h4 style="background:black; color:whitesmoke; padding:5px; border-radius:6px; width:fit-content;" >Created on: <span style="font-weight:300;" >{{info.create_date}}</span></h4>
+                    <h4 style="background:black; color:whitesmoke; padding:5px; border-radius:6px; width:fit-content;" >Creator: <span style="font-weight:300;" >{{info.id_user}}</span></h4>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    <div class="row DspBody">
+        {% if playlistSong %}
+            {% for song in playlistSong %}
+                {% comment %} Bài trong Dsp {% endcomment %}
+                <div class="col l-12 m-12 c-12 DspSong">
+                    <div class="row">
+                        <div class="col l-3 m-3 c-3 DspSongImg">
+                            <img src="{{song.song.ImageURL}}" alt="Hình của {{song.song.name}}">
+                        </div>
+                        <div class="col l-9 m-9 c-9 DspSongInfor">
+                            <a href="#">
+                                {{song.song.name}}
+                            </a>
+                            <h6>Người đăng : <span style="font-weight:300;" >{{song.song.id_user}}</span></h6>
+                            {% comment %} <h6>{{song.song.artist}}</h6> {% endcomment %}
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <h4 style="margin-left: 20px;" >Chưa có bài hát nào trong Playlist này ...</h4>
+        {% endif %}
+    </div>
+
+    <style>
+    /* khai báo hình của Active Danh sách phát */
+    :root{
+        {% for info in playlistInfo %}
+            --pseudo-backgroundPlaylist: url({{info.ImageURL}});
+        {% endfor %}
+    }
+    #DspContainer{
+        background: var(--pseudo-backgroundPlaylist);
+    }
+    #buttonSettingsProfile{
+        background: rgb(55,45,50);
+        background: radial-gradient(circle, rgba(46, 45, 46, 0.447) 0%, rgba(0, 0, 0, 0.896) 100%);
+        backdrop-filter: blur(20px);
+    }
+    .DspHeadContainer{
+        background: rgb(55,45,50);
+        background: radial-gradient(circle, rgba(46, 45, 46, 0.447) 0%, rgba(0, 0, 0, 0.896) 100%);
+        backdrop-filter: blur(20px);
+        border-top: 0.5px solid #1f1f1f;
+    }
+    </style>
+{% endblock Dsp %}
+
+

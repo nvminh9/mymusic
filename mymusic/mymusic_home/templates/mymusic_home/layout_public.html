@@ -1,0 +1,150 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Link CSS thư viện Grid System -->
+    <link rel="stylesheet" href="{%static 'mymusic_home/css/library_grid_system.css' %}">
+    <!-- Link CSS style -->
+    <link rel="stylesheet" href="{%static 'mymusic_home/css/style.css' %}">
+    <!-- Link Google Icon -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <!-- Favicon -->
+    <link type="image/png" sizes="32x32" rel="icon" href="{% static 'mymusic_home/images/logo/FaviconBlack.png' %}">
+    <!-- Link Google Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500&display=swap" rel="stylesheet">
+    <title>mymusic | Express yourself through your music taste</title>
+</head>
+<body>
+    <div class="grid wide wrapper">
+        <div class="row container">
+
+            <!-- Phần Container bên trái (chứa logo, ds phát,...) -->
+            <div id="leftContainer" class="col l-3 m-12 c-0 leftContainer">
+                <div class="row logoZone">
+                    <div class="col l-12 m-12 c-12 logoContainer">
+                        <a href="{% url "home" %}">
+                            <img class="logo" src="{% static 'mymusic_home/images/logo/logoWhiteTransparent.png' %}" alt="">
+                        </a>
+                        <a href="{% url 'searchPage' %}" class="searchButton">
+                            <span class="material-symbols-outlined">
+                                search
+                            </span>
+                        </a>
+                    </div>
+                    <div class="col l-12 m-12 c-12 profileContainer">
+                        <div class="row profile">
+                            <div class="col l-4 m-12 c-12 avatarProfile">
+                                <a href="{% url "profile" %}" id="avatarProfile">
+                                    <img src="{% static '' %}" style="background-color: grey;">
+                                </a>
+                            </div>
+                            <div class="col l-8 m-12 c-12 nameProfile">
+                                <a href="{% url "profile" %}" class="name">
+                                    {{request.user}}
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row dspZone">
+                    <!-- Header Danh sách phát -->
+                    <div class="col l-12 m-12 c-12 dspHeader">
+                        <div class="row">
+                            <div class="col l-6 m-6 c-6">
+                                <span>Danh sách phát</span>
+                            </div>
+                            <div class="col l-6 m-6 c-6">
+                                <button class="addDsp">+</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col l-12 m-12 c-12 dspContainer">
+                        {% if currentUserPlaylist %}
+                            {% for dsp in currentUserPlaylist %}
+                            <div class="col l-12 m-12 c-12 dsp">
+                                <div class="row dspInfo">
+                                    <div class="col l-6 m-6 c-6 dspImg"> 
+                                        {% comment %} {{dspDetail.id_playlist.create_date}} {% endcomment %}
+                                        <img src="{{dsp.ImageURL}}" alt="Danh sách phát cover">
+                                    </div>
+                                    <div class="col l-6 m-6 c-6 dspName">
+                                        <a href="{% url "Dsp" %}?namePlaylist={{dsp.id_playlist}}" >{{dsp.name}}</a>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        {% else %}
+                            <h4 style="font-weight:300;">Chưa có Playlist nào</h4>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Phần Container ở giữa (chứa các nội dung show ra) -->
+            <div id="middleContainer" class="col l-6 m-0 c-0 middleContainer">
+                {% block middleContainer-content %}{% endblock middleContainer-content %}
+                {% block profile %}{% endblock profile %}
+                {% block Dsp %}{% endblock Dsp %}
+                {% block searchPage %}{% endblock searchPage %}
+                {% block profileSettings %}{% endblock profileSettings %}
+                {% block searchResult %}{% endblock searchResult %}
+                {% block listByGenre %}{% endblock listByGenre %}
+                {% block listByArtist %}{% endblock listByArtist %}
+            </div>
+
+            <!-- Phần Container bên phải (chứa miêu tả nhạc) -->
+            <div id="rightContainer" class="col l-3 m-0 c-12 rightContainer">
+                <div class="row songPlayedContainer">
+                    <div id="buttonHideSongPlayerContainer" class="col l-12 m-12 c-12 buttonHideSongPlayerContainer">
+                        Song Player
+                        <button id="buttonHideSongPlayer" class="buttonHideSongPlayer" onclick="HideSongPlayer()"><span class="material-symbols-outlined">
+                            arrow_right
+                        </span></button>
+                        <button id="buttonZoomSongPlayer" class="buttonZoomSongPlayer" onclick="buttonZoomSongPlayer()"><span class="material-symbols-outlined">
+                            zoom_out_map
+                        </span></button>
+                    </div>
+                    {% for resource in songResource %}
+                    <div id="songPlayedImg" class="col l-12 m-12 c-12 songPlayedImg">
+                        <img id="songImg" src="{{resource.ImageURL}}" alt="Hình của bài {{resource.name}}">
+                    </div>
+
+                    <div class="col l-12 m-12 c-12 songPlayedLyrics">
+                        <div id="lyrics-content">
+                            
+                        </div>
+                    </div>
+                    <div id="audioSong" class="col l-12 m-12 c-12 songPlayedControl">
+                        <audio autoplay controls>
+                            <source autoplay src="{{resource.SongURL}}" type="audio/wav">
+                        </audio>
+                        {% comment %} <audio controls>
+                            {% for song in songs %}
+                                <source autoplay src="{{song.SongURL}}" type="audio/wav">
+                            {% endfor %}
+                        </audio> {% endcomment %}
+                    </div>
+                    <style>
+                        /* khai báo hình bài hát */
+                        :root{
+                            --pseudo-background: url({{resource.ImageURL}});
+                        }
+                    </style>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="{%static 'mymusic_home/js/home.js' %}" ></script>
+    <script src="{%static 'mymusic_home/js/slideShow.js' %}" ></script>
+    <script src="{%static 'mymusic_home/js/handle.js' %}" ></script>
+    {% comment %} <script src="{%static 'mymusic_home/js/songPlayer.js' %}" ></script> {% endcomment %}
+</body>
+</html>

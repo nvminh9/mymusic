@@ -1,0 +1,87 @@
+{% extends 'mymusic_home/layout_public.html' %}
+{% load static %}
+
+{% block profile %}
+<!-- Button Show Song Player -->
+<div id="buttonShowSongPlayerContainer" class="col l-12 m-12 c-12 buttonShowSongPlayerContainer">
+    <button class="buttonShowSongPlayer" onclick="ShowSongPlayer()"><span class="material-symbols-outlined">
+        arrow_left
+    </span></button>
+</div>
+<!-- Button Settings -->
+<div id="buttonSettingsProfile" class="col l-12 m-12 c-12 buttonSettingsProfile" >
+       <button onclick="history.back()" class="btnBack"><span class="material-symbols-outlined">
+        arrow_back
+       </span></button>
+       
+       <a href="{% url "profileSettings" %}" ><span class="material-symbols-outlined">
+        settings
+       </span></a>
+    </div>
+    <!-- Profile Chính -->
+    <div class="row mainProfile">
+       <!-- Ảnh bìa Profile -->
+       <div id="profileBanner" class="col l-12 m-12 c-12 profileBanner">
+           <img src="{% static "" %}" alt="">
+       </div>
+       <!-- Hình đại diện và tên Profile -->
+       <div id="profileAvatar" class="col l-12 m-12 c-12 profileAvatar">
+           <div class="row">
+               <div class="col l-3 m-12 c-12 avatar">
+                   <img src="./assets/img/profileAvatar.png" alt="">
+              </div>
+             <div class="col l-9 m-12 c-12 name">
+                <div class="row nameUser"><h5>{{request.user}}</h5></div>
+               {% comment %} <div class="row tongDspUser"><h5>Tổng số nhạc đã đăng : ...</h5></div>
+              <div class="row tongNhacUser"><h5>Tổng số danh sách phát : ...</h5></div> {% endcomment %}
+         </div>
+           </div>
+      </div>
+      <!-- Thông tin hồ sơ -->
+      <div class="col l-12 m-12 c-12 profileInfor">
+          <div class="row">
+              <div class="col l-12 m-12 c-12 infor">
+                <h5 class="profileGender"><b>Họ và Tên : </b>{{request.user.last_name}} {{request.user.first_name}}<h5>
+                <h5 class="profileBirth"><b>Ngày tạo tài khoản : </b>{{request.user.date_joined}}</h5>
+                <h5 class="profileEmail"><b>Email : </b>{{request.user.email}}</h5>
+              </div>
+          </div>
+      </div>
+
+       <!-- Danh sách danh sách phát của Người dùng -->
+      <h5 style="padding-left: 16px; margin: 0px; font-size: 20px; font-weight: 600;">Danh sách phát</h5>
+      <div class="col l-12 m-12 c-12 profileDsp">
+        {% comment %} Mẫu {% endcomment %}
+          <div class="col l-4 m-6 c-12 ">
+              <button class="dspInProfile">
+                  <img src="{% static '' %}" alt="">
+                  <div class="title">
+                      <h5>Tên Danh Sách Phát</h5>
+                  </div>
+              </button>
+          </div>
+      </div>
+      <!-- Kết thúc danh sách danh sách phát của người dùng -->
+
+           <!-- Danh sách nhạc của Người dùng -->
+      <h5 style="padding-left: 16px; margin: 0; margin-top: 35px; font-size: 20px; font-weight: 600;">Nhạc đã đăng tải</h5>
+      <div class="col l-12 m-12 c-12 profileMusic">
+        {% comment %} Mẫu {% endcomment %}
+          <div class="col l-12 m-6 c-12 ">
+              <button class="musicInProfile">
+                  <img src="{% static '' %}" alt="">
+                  <div class="title">
+                      <h5>Tên Bài Hát - Nghệ Sĩ</h5>
+                  </div>
+              </button>
+          </div>
+          
+      </div>
+      <!-- Kết thúc danh sách nhạc của người dùng -->
+
+    </div>
+    <script src="assets/js/home.js"></script>
+    <script src="assets/js/slideShow.js"></script>
+    <script src="assets/js/songPlayer.js"></script>
+
+{% endblock profile %}

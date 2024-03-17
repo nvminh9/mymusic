@@ -1,0 +1,64 @@
+{% extends 'mymusic_home/layout_public.html' %}
+{% load static %}
+
+{% block searchPage %}
+<!-- Button Show Song Player -->
+<div id="buttonShowSongPlayerContainer" class="col l-12 m-12 c-12 buttonShowSongPlayerContainer">
+    <button class="buttonShowSongPlayer" onclick="ShowSongPlayer()"><span class="material-symbols-outlined">
+        arrow_left
+    </span></button>
+</div>
+<!-- Button ComeBack -->
+<div class="row buttonComebackInSearch">
+    <div class="col l-12 m-12 c-12" >
+        <button onclick="history.back()" class="btnBack"><span class="material-symbols-outlined">
+            arrow_back
+        </span></button>
+    </div>
+</div>
+<h1>Searching ... </h1>
+<form class="row formsearchInput" role="search" method = POST action="{% url "searchResult" %}"> 
+    {% csrf_token %}
+    <input style="color: black;" class="col l-10 m-10 c-10 searchInput" type="text" name="searched" aria-label="Search" placeholder="Nhập vào từ khóa tên bài hát ..." />
+    <input class="col l-2 m-2 c-2 btnSearch" type="submit"/>
+</form>
+<style>
+.buttonComebackInSearch{
+    border-bottom: .5px solid #3b3b3c;
+    padding: 11px;
+
+}
+.buttonComebackInSearch button{
+    float: right;
+    border:none;
+    background: black;
+    padding: 4px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+.buttonComebackInSearch button:hover{
+    background: #3b3b3c;
+}
+.formsearchInput{
+    padding: 10px;
+    padding-top: 0px;
+}
+.searchInput{
+    {% comment %} width: 100%; {% endcomment %}
+    padding: 10px;
+    border-radius: 8px 0px 0px 8px;
+    border: none;
+    color: black;
+}
+.formsearchInput .btnSearch{
+    background: black;
+    border: none;
+    border-radius: 0px 8px 8px 0px;
+    cursor: pointer;
+}
+.formsearchInput .btnSearch:hover{
+    background: #3b3b3c;
+}
+</style>
+{% endblock searchPage %}
+

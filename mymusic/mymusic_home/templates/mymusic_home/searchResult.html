@@ -1,0 +1,130 @@
+{% extends 'mymusic_home/layout_public.html' %}
+{% load static %}
+
+{% block searchResult %}
+<!-- Button Show Song Player -->
+<div id="buttonShowSongPlayerContainer" class="col l-12 m-12 c-12 buttonShowSongPlayerContainer">
+    <button class="buttonShowSongPlayer" onclick="ShowSongPlayer()"><span class="material-symbols-outlined">
+        arrow_left
+    </span></button>
+</div>
+<!-- Button ComeBack -->
+<div class="row buttonComebackInSearch">
+    <div class="col l-12 m-12 c-12" >
+        <button onclick="history.back()" class="btnBack"><span class="material-symbols-outlined">
+            arrow_back
+        </span></button>
+    </div>
+</div>
+<h1>Search result for <span style="color: brown;">{{searched}}</span> ... </h1>
+
+<div class="row DspBody">
+{% for song in keys %}
+    <div class="col l-12 m-12 c-12 DspSong">
+        <div class="row">
+            <div class="col l-3 m-3 c-3 DspSongImg">
+                <img src="{{song.ImageURL}}" alt="{{song.name}}">
+            </div>
+            <div class="col l-9 m-9 c-9 DspSongInfor">
+                <a href="#">
+                    {{song.name}}
+                </a>
+                <h5>{{song.id_artist}}</h5>
+                <h6>Người đăng : {{song.id_user}}</h6>
+            </div>
+        </div>
+    </div>
+{% endfor %}
+</div>
+
+<style>
+.buttonComebackInSearch{
+    border-bottom: .5px solid #3b3b3c;
+    padding: 11px;
+
+}
+.buttonComebackInSearch button{
+    float: right;
+    border:none;
+    background: black;
+    padding: 4px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+.buttonComebackInSearch button:hover{
+    background: #3b3b3c;
+}
+.formsearchInput{
+    padding: 10px;
+    padding-top: 0px;
+}
+.searchInput{
+    {% comment %} width: 100%; {% endcomment %}
+    padding: 10px;
+    border-radius: 8px 0px 0px 8px;
+    border: none;
+    color: black;
+}
+.formsearchInput .btnSearch{
+    background: black;
+    border: none;
+    border-radius: 0px 8px 8px 0px;
+    cursor: pointer;
+}
+.formsearchInput .btnSearch:hover{
+    background: #3b3b3c;
+}
+
+/* CSS Cho Danh Sách Phát trong MiddleContainer */
+    .DspContainer{
+        border-bottom: .5px solid #3b3b3c;
+    }
+    .DspContainer .DspHeadContainer{
+        padding: 30px;
+
+    }
+    .DspContainer .DspHead{
+
+    }
+    .DspContainer .DspHead .DspImg{
+
+    }
+    .DspContainer .DspHead .DspImg img{
+        width: 100%;
+        height: 100%;
+        border-radius: 6px;
+    }
+    .DspContainer .DspHead .DspInfor{
+        float: left;
+        padding-left: 20px;
+        justify-content: left;
+        align-items: center;
+        display: flex;
+    }
+    .DspBody{
+        /* overflow-y: auto;
+        overflow-x: hidden; */
+        margin-top: 10px;
+        padding: 20px;
+        padding-left: 0px;
+    } 
+    .DspBody .DspSong{
+        padding: 10px;
+        margin: 10px;
+        background-color: #252526;
+        border-radius: 10px;
+    } 
+    .DspBody .DspSongInfor a{
+        text-decoration: none;
+    } 
+    .DspBody .DspSongInfor a:hover{
+        text-decoration: underline;
+    } 
+    .DspBody .DspSong .DspSongImg img{
+        width: 100%;
+        height: 100%;
+        border-radius: 6px;
+    }    
+</style>
+{% endblock searchResult %}
+
