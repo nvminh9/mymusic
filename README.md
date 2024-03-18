@@ -13,6 +13,8 @@
   + **python manage.py runserver** (sau khi migrate thành công, thì chạy lệnh này để khởi chạy Server với Port mặc định là 8000, ghi thêm Port sau chữ runserver để đổi Port)
 - Cuối cùng lên trình duyệt gõ **127.0.0.1:8000** để kiểm tra .
   
+**Trang web đang trong quá trình hoàn thiện ...**
+
 **English:**
 
   **After downloading, you need to do the following to run it:**
@@ -27,3 +29,5 @@
   + **python manage.py migrate** (this command performs migration)
   + **python manage.py runserver** (after successful migration, run this command to launch the Server with default Port 8000, add Port after runserver to change Port)
 Finally, go to the browser and type **127.0.0.1:8000** to check.
+
+**This website is in progressing...
