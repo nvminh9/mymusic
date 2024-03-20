@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse, JsonResponse, HttpRequest
 from .models import *
 import json
+from django.utils.http import *
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate,login,logout
 from django.contrib import messages
@@ -19,14 +20,12 @@ def index(request):
         dspDetails = playlist_detail.objects.all()
         genres = genre.objects.all()
         artists = artist.objects.all()
-        active_song = request.GET.get('nameSong','')
-        if active_song:
-            songResource = song.objects.filter(id_song = active_song)
-        context= {'genres': genres, 'artists': artists, 'dsps':dsps, 'dspDetails':dspDetails, 'newss': newss, 'songs': songs, 'currentUserPlaylist':currentUserPlaylist, 'songResource':songResource}
+        
+        context= {'genres': genres, 'artists': artists, 'dsps':dsps, 'dspDetails':dspDetails, 'newss': newss, 'songs': songs, 'currentUserPlaylist':currentUserPlaylist}
         return render(request, 'mymusic_home/home.html', context)
     else: 
         return redirect('login')
-    
+
 
 # Load View for Home 
 def home(request):
@@ -41,9 +40,8 @@ def home(request):
         dspDetails = playlist_detail.objects.all()
         genres = genre.objects.all()
         artists = artist.objects.all()
-        active_song = request.GET.get('nameSong','')
-        if active_song:
-            songResource = song.objects.filter(id_song = active_song)
+        songResource = request.GET.get('http://127.0.0.1:8343/images/outWest.mp3')
+        
         context= {'genres': genres, 'artists': artists, 'dsps':dsps, 'dspDetails':dspDetails, 'newss': newss, 'songs': songs, 'currentUserPlaylist':currentUserPlaylist, 'songResource':songResource}
         return render(request, 'mymusic_home/home.html', context)
     else: 
@@ -62,8 +60,9 @@ def profile(request):
         dsps = playlist.objects.all()
         dspDetails = playlist_detail.objects.all()
         songs = song.objects.all()
-       
-        context= {'songs':songs, 'dsps':dsps, 'dspDetails':dspDetails, 'currentUserPlaylist':currentUserPlaylist}
+        userDsps = playlist.objects.filter(id_user = currentUser)
+        userSongs = song.objects.filter(id_user = currentUser)
+        context= {'songs':songs, 'dsps':dsps, 'dspDetails':dspDetails, 'currentUserPlaylist':currentUserPlaylist, 'userDsps':userDsps, 'userSongs':userSongs}
         return render(request, 'mymusic_home/profile.html', context)
     else:
         return redirect('login')
@@ -198,12 +197,25 @@ def listByArtist(request):
         active_artist = request.GET.get('artist','')
         if active_artist:
             artistsSong = song.objects.filter(artist__slug = active_artist)
+            artistsInfors = artist.objects.filter(slug = active_artist)
         dsps = playlist.objects.all()
         dspDetails = playlist_detail.objects.all()
         songs = song.objects.all()
-        
-        context= {'songs':songs, 'dsps':dsps, 'dspDetails':dspDetails, 'artists':artists, 'artistsSong':artistsSong, 'currentUserPlaylist':currentUserPlaylist}
+
+        context= {'songs':songs, 'dsps':dsps, 'dspDetails':dspDetails, 'artists':artists, 'artistsSong':artistsSong, 'currentUserPlaylist':currentUserPlaylist, 'artistsInfors':artistsInfors}
         return render(request, 'mymusic_home/listByArtist.html', context)
     else:
         return redirect('login')
-
+    
+        
+# Xử lý phát nhạc theo bài được chọn (handle url for javascript Fetch) 
+def activeSong(request):
+    if request.user.is_authenticated:
+        data    = json.loads(request.body.decode('utf-8'))
+        # songId    = data['songId']
+        # action    = data['action']
+        # print('songId :', songId,'action :', action)
+        return JsonResponse(data, safe=False)
+    else:
+        return redirect('login')
+    

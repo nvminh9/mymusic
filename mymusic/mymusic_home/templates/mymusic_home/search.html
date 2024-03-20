@@ -2,26 +2,93 @@
 {% load static %}
 
 {% block searchPage %}
-<!-- Button Show Song Player -->
-<div id="buttonShowSongPlayerContainer" class="col l-12 m-12 c-12 buttonShowSongPlayerContainer">
-    <button class="buttonShowSongPlayer" onclick="ShowSongPlayer()"><span class="material-symbols-outlined">
-        arrow_left
-    </span></button>
-</div>
-<!-- Button ComeBack -->
-<div class="row buttonComebackInSearch">
-    <div class="col l-12 m-12 c-12" >
-        <button onclick="history.back()" class="btnBack"><span class="material-symbols-outlined">
-            arrow_back
+<!-- Phần Container ở giữa (chứa các nội dung show ra) -->
+<div id="middleContainer" class="col l-6 m-0 c-0 middleContainer">
+    <!-- Button Show Song Player -->
+    <div id="buttonShowSongPlayerContainer" class="col l-12 m-12 c-12 buttonShowSongPlayerContainer">
+        <button class="buttonShowSongPlayer" onclick="ShowSongPlayer()"><span class="material-symbols-outlined">
+            arrow_left
         </span></button>
     </div>
+    <!-- Button ComeBack -->
+    <div class="row buttonComebackInSearch">
+        <div class="col l-12 m-12 c-12" >
+            <button onclick="history.back()" class="btnBack"><span class="material-symbols-outlined">
+                arrow_back
+            </span></button>
+        </div>
+    </div>
+    <h1>Searching ... </h1>
+    <form class="row formsearchInput" role="search" method = POST action="{% url "searchResult" %}"> 
+        {% csrf_token %}
+        <input style="color: black;" class="col l-10 m-10 c-10 searchInput" type="text" name="searched" aria-label="Search" placeholder="Nhập vào từ khóa tên bài hát ..." />
+        <input class="col l-2 m-2 c-2 btnSearch" type="submit"/>
+    </form>
 </div>
-<h1>Searching ... </h1>
-<form class="row formsearchInput" role="search" method = POST action="{% url "searchResult" %}"> 
-    {% csrf_token %}
-    <input style="color: black;" class="col l-10 m-10 c-10 searchInput" type="text" name="searched" aria-label="Search" placeholder="Nhập vào từ khóa tên bài hát ..." />
-    <input class="col l-2 m-2 c-2 btnSearch" type="submit"/>
-</form>
+
+<!-- Phần Container bên phải (chứa miêu tả nhạc) -->
+<div id="rightContainer" class="col l-3 m-0 c-12 rightContainer">
+    {% comment %} Song Player {% endcomment %}
+    {% comment %} {% block songPlayer %}{% endblock songPlayer %} {% endcomment %}
+    {% comment %} end Song Player {% endcomment %}
+    <div class="row songPlayedContainer">
+        <div id="buttonHideSongPlayerContainer" class="col l-12 m-12 c-12 buttonHideSongPlayerContainer">
+            Song Player
+            <button id="buttonHideSongPlayer" class="buttonHideSongPlayer" onclick="HideSongPlayer()"><span class="material-symbols-outlined">
+                arrow_right
+            </span></button>
+            <button id="buttonZoomSongPlayer" class="buttonZoomSongPlayer" onclick="buttonZoomSongPlayer()"><span class="material-symbols-outlined">
+                zoom_out_map
+            </span></button>
+        </div>
+        {% if thatSongResource %}
+            {% for ActivedSong in thatSongResource %}
+                    <div id="songPlayedImg" class="col l-12 m-12 c-12 songPlayedImg">
+                        <img id="songImg" src="{{ActivedSong.ImageURL}}" alt="Hình của bài {{ActivedSong.name}}">
+                    </div>
+        
+                    <div class="col l-12 m-12 c-12 songPlayedLyrics">
+                        <div id="lyrics-content">
+                            <h3 style="text-align:center; ">...</h3>
+                        </div>
+                    </div>
+                    <div id="audioSong" class="col l-12 m-12 c-12 songPlayedControl">
+                        <audio  id="sourceSong" autoplay controls loop>
+                            {% comment %} <source id="sourceSong" src="" type="audio/wav"> {% endcomment %}
+                        </audio>
+                    </div>
+                    <style>
+                        /* khai báo hình bài hát */
+                        :root{
+                            --pseudo-background: url({{ActivedSong.ImageURL}});
+                        }
+                    </style>
+            {% endfor %}
+        {% else %}    
+            <div id="songPlayedImg" class="col l-12 m-12 c-12 songPlayedImg">
+                <img id="songImg" src="{% static "mymusic_home/images/hinhPlayerMusicDefault.jpg" %}" alt="Hình mặc định khi chưa có nhạc phát ...">
+            </div>
+    
+            <div class="col l-12 m-12 c-12 songPlayedLyrics">
+                <div id="lyrics-content">
+                    <h3 style="text-align:center; ">Chưa có bài nào được phát ...</h3>
+                </div>
+            </div>
+            <div id="audioSong" class="col l-12 m-12 c-12 songPlayedControl">
+                <audio  id="sourceSong" autoplay controls loop>
+                    {% comment %} <source id="sourceSong" src="" type="audio/wav"> {% endcomment %}
+                </audio>
+            </div>
+            <style>
+                /* khai báo hình bài hát */
+                :root{
+                    --pseudo-background: url({% static "mymusic_home/images/hinhPlayerMusicDefault.jpg" %});
+                }
+            </style>
+        {% endif %}
+    </div>
+</div>
+
 <style>
 .buttonComebackInSearch{
     border-bottom: .5px solid #3b3b3c;

@@ -2,6 +2,8 @@
 {% load static %}
 
 {% block middleContainer-content %}
+<!-- Phần Container ở giữa (chứa các nội dung show ra) -->
+<div id="middleContainer" class="col l-6 m-0 c-0 middleContainer">
     <!-- Button Show Song Player -->
     <div id="buttonShowSongPlayerContainer" class="col l-12 m-12 c-12 buttonShowSongPlayerContainer">
         <button class="buttonShowSongPlayer" onclick="ShowSongPlayer()"><span class="material-symbols-outlined">
@@ -88,23 +90,90 @@
             <span class="title">Danh Sách Nhạc</span>
         </div>
         {% for song in songs %}
-            <div class="col l-12 m-12 c-12 DspSong">
+            <button data-song={{song.fileMp3}} data-songimg={{song.image}} data-action="play" class="col l-12 m-12 c-12 DspSong btnSong">
                 <div class="row">
                     <div class="col l-3 m-3 c-3 DspSongImg">
                         <img src="{{song.ImageURL}}" alt="{{song.name}}">
                     </div>
                     <div class="col l-9 m-9 c-9 DspSongInfor">
-                        <a href="?nameSong={{song.id_song}}" style="font-weight:700;" >
+                        <a href="#" >
                             {{song.name}}
                         </a>
                         <h5>{{song.id_artist}}</h5>
-                        <h6>Người đăng : <span style="font-weight:300;" >{{song.id_user}}</span></h6>
+                        <h6>Người đăng : <span >{{song.id_user}}</span></h6>
+                        <h6>Ngày đăng : <span >{{song.create_date}}</span></h6>
+                        <h6>File : <span >{{song.fileMp3}}</span></h6>
                     </div>
                 </div>
-            </div>
+            </button>
         {% endfor %}
     </div>
+</div>
 
+<!-- Phần Container bên phải (chứa miêu tả nhạc) -->
+<div id="rightContainer" class="col l-3 m-0 c-12 rightContainer">
+    {% comment %} Song Player {% endcomment %}
+    {% comment %} {% block songPlayer %}{% endblock songPlayer %} {% endcomment %}
+    {% comment %} end Song Player {% endcomment %}
+    <div class="row songPlayedContainer">
+        <div id="buttonHideSongPlayerContainer" class="col l-12 m-12 c-12 buttonHideSongPlayerContainer">
+            Song Player
+            <button id="buttonHideSongPlayer" class="buttonHideSongPlayer" onclick="HideSongPlayer()"><span class="material-symbols-outlined">
+                arrow_right
+            </span></button>
+            <button id="buttonZoomSongPlayer" class="buttonZoomSongPlayer" onclick="buttonZoomSongPlayer()"><span class="material-symbols-outlined">
+                zoom_out_map
+            </span></button>
+        </div>
+        {% if songResource %}
+            {% for song in songResource %}
+                    <div id="songPlayedImg" class="col l-12 m-12 c-12 songPlayedImg">
+                        <img id="songImg" src="{{song.ImageURL}}" alt="Hình của bài {{song.name}}">
+                    </div>
+        
+                    <div class="col l-12 m-12 c-12 songPlayedLyrics">
+                        <div id="lyrics-content">
+                            <h3 style="text-align:center; ">...</h3>
+                        </div>
+                    </div>
+                    <div id="audioSong" class="col l-12 m-12 c-12 songPlayedControl">
+                        <audio id="sourceSong" autoplay controls loop>
+                            {% comment %} <source id="sourceSong" src="" type="audio/wav"> {% endcomment %}
+                        </audio>
+                    </div>
+                    <style>
+                        /* khai báo hình bài hát */
+                        :root{
+                            --pseudo-background: url({{song.ImageURL}});
+                        }
+                    </style>
+            {% endfor %}
+        {% else %}    
+            <div id="songPlayedImg" class="col l-12 m-12 c-12 songPlayedImg">
+                <img id="songImg" src="{% static "mymusic_home/images/hinhPlayerMusicDefault.jpg" %}" alt="Hình mặc định khi chưa có nhạc phát ...">
+            </div>
+    
+            <div class="col l-12 m-12 c-12 songPlayedLyrics">
+                <div id="lyrics-content">
+                    <h3 style="text-align:center; ">Chưa có bài nào được phát ...</h3>
+                </div>
+            </div>
+            <div id="audioSong" class="col l-12 m-12 c-12 songPlayedControl">
+                <audio  id="sourceSong" autoplay controls loop>
+                    {% comment %} <source id="sourceSong" src="" type="audio/wav"> {% endcomment %}
+                </audio>
+            </div>
+            <style>
+                /* khai báo hình bài hát */
+                :root{
+                    --pseudo-background: url({% static "mymusic_home/images/hinhPlayerMusicDefault.jpg" %});
+                }
+            </style>
+        {% endif %}
+    </div>
+</div>
+
+{% comment %} CSS bổ sung {% endcomment %}
     <style>
         .aGenre:hover{
             background: brown;

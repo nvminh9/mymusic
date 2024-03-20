@@ -2,53 +2,141 @@
 {% load static %}
 
 {% block listByArtist %}
-<!-- Button Show Song Player -->
-<div id="buttonShowSongPlayerContainer" class="col l-12 m-12 c-12 buttonShowSongPlayerContainer">
-    <button class="buttonShowSongPlayer" onclick="ShowSongPlayer()"><span class="material-symbols-outlined">
-        arrow_left
-    </span></button>
-</div>
-<!-- Button ComeBack -->
-<div class="row buttonComebackInSearch">
-    <div class="col l-12 m-12 c-12" >
-        <button onclick="history.back()" class="btnBack"><span class="material-symbols-outlined">
-            arrow_back
+<!-- Phần Container ở giữa (chứa các nội dung show ra) -->
+<div id="middleContainer" class="col l-6 m-0 c-0 middleContainer">
+    <!-- Button Show Song Player -->
+    <div id="buttonShowSongPlayerContainer" class="col l-12 m-12 c-12 buttonShowSongPlayerContainer">
+        <button class="buttonShowSongPlayer" onclick="ShowSongPlayer()"><span class="material-symbols-outlined">
+            arrow_left
         </span></button>
     </div>
-</div>
-<h2>Danh sách nhạc theo nghệ sĩ ...</h2>
-
-{% comment %} <div class="row DspContainer">
-    <div class="col l-12 m-12 c-12 DspHeadContainer">
-        <div class="row DspHead">
-            <div class="col l-4 m-12 c-12 DspImg">
-                <img src="{% static '' %}" alt="">
-            </div>
-            <div class="col l-8 m-12 c-12 DspInfor">
-                <h2>Tên Nghệ Sĩ</h2>
+    <!-- Button ComeBack -->
+    <div class="row buttonComebackInSearch">
+        <div class="col l-12 m-12 c-12" >
+            <button onclick="history.back()" class="btnBack"><span class="material-symbols-outlined">
+                arrow_back
+            </span></button>
+        </div>
+    </div>
+    <div id="DspContainer"  class="row DspContainer">
+        <div class="col l-12 m-12 c-12 DspHeadContainer">
+            <div class="row DspHead">
+                {% for artistInfor in artistsInfors %}
+                    <div class="col l-4 m-12 c-12 DspImg">
+                        <img src="{{artistInfor.ImageURL}}" alt="Hình của {{artistInfor.name}}">
+                    </div>
+                    <div class="col l-8 m-12 c-12 DspInfor">
+                        <h1 style="background:black; color:whitesmoke; padding:5px; border-radius:6px; width:fit-content;" >{{artistInfor.name}}</h1>
+                        <h3 style="background:black; color:whitesmoke; padding:5px; border-radius:6px; width:fit-content; height:110px; overflow-x:hidden; overflow-y:auto;" >Description: <span style="font-weight:300; font-size: 16px" >{{artistInfor.description}}</span></h3>
+                        <button class="btnActivePlaylist" ><span class="material-symbols-outlined">
+                            play_arrow
+                            </span>
+                        </button>
+                    </div>
+                {% endfor %}
             </div>
         </div>
     </div>
-</div> {% endcomment %}
-<div class="row DspBody">
-    {% comment %} Bài trong Dsp {% endcomment %}
-    {% for song in artistsSong %}
-    <div class="col l-12 m-12 c-12 DspSong">
-        <div class="row">
-            <div class="col l-4 m-3 c-3 DspSongImg">
-                <img src="{{song.ImageURL}}" alt="{{song.name}}">
-            </div>
-            <div class="col l-8 m-9 c-9 DspSongInfor">
-                <a href="#" style="font-weight: 700;">
-                    {{song.name}}
-                </a>
-                {% comment %} <h6>{{song.artist}}</h6>
-                <h6>{{song.genre}}</h6> {% endcomment %}
-                <h6>Người đăng : <span style="font-weight: 300;">{{song.id_user}}</span></h6>
-            </div>
-        </div>
-    </div>
+    {% for artistInfor in artistsInfors  %}
+        <h2>Danh sách nhạc theo <span style="color:brown;" >{{artistInfor.name}}</span> ...</h2>
     {% endfor %}
+
+    {% comment %} <div class="row DspContainer">
+        <div class="col l-12 m-12 c-12 DspHeadContainer">
+            <div class="row DspHead">
+                <div class="col l-4 m-12 c-12 DspImg">
+                    <img src="{% static '' %}" alt="">
+                </div>
+                <div class="col l-8 m-12 c-12 DspInfor">
+                    <h2>Tên Nghệ Sĩ</h2>
+                </div>
+            </div>
+        </div>
+    </div> {% endcomment %}
+    <div class="row DspBody">
+        {% comment %} Bài trong Dsp {% endcomment %}
+        {% for song in artistsSong %}
+        <button data-song={{song.id_song}} data-songimg={{song.image}} data-action="play" class="col l-12 m-12 c-12 DspSong btnSong">
+            <div class="row">
+                <div class="col l-4 m-3 c-3 DspSongImg">
+                    <img src="{{song.ImageURL}}" alt="{{song.name}}">
+                </div>
+                <div class="col l-8 m-9 c-9 DspSongInfor">
+                    <a href="#" style="font-weight: 700;">
+                        {{song.name}}
+                    </a>
+                    {% comment %} <h6>{{song.artist}}</h6>
+                    <h6>{{song.genre}}</h6> {% endcomment %}
+                    <h6>Người đăng : <span style="font-weight: 300;">{{song.id_user}}</span></h6>
+                    <h6>Ngày đăng : <span >{{song.create_date}}</span></h6>
+                </div>
+            </div>
+        </button>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- Phần Container bên phải (chứa miêu tả nhạc) -->
+<div id="rightContainer" class="col l-3 m-0 c-12 rightContainer">
+    {% comment %} Song Player {% endcomment %}
+    {% comment %} {% block songPlayer %}{% endblock songPlayer %} {% endcomment %}
+    {% comment %} end Song Player {% endcomment %}
+    <div class="row songPlayedContainer">
+        <div id="buttonHideSongPlayerContainer" class="col l-12 m-12 c-12 buttonHideSongPlayerContainer">
+            Song Player
+            <button id="buttonHideSongPlayer" class="buttonHideSongPlayer" onclick="HideSongPlayer()"><span class="material-symbols-outlined">
+                arrow_right
+            </span></button>
+            <button id="buttonZoomSongPlayer" class="buttonZoomSongPlayer" onclick="buttonZoomSongPlayer()"><span class="material-symbols-outlined">
+                zoom_out_map
+            </span></button>
+        </div>
+        {% if thatSongResource %}
+            {% for ActivedSong in thatSongResource %}
+                    <div id="songPlayedImg" class="col l-12 m-12 c-12 songPlayedImg">
+                        <img id="songImg" src="{{ActivedSong.ImageURL}}" alt="Hình của bài {{ActivedSong.name}}">
+                    </div>
+        
+                    <div class="col l-12 m-12 c-12 songPlayedLyrics">
+                        <div id="lyrics-content">
+                            <h3 style="text-align:center; ">...</h3>
+                        </div>
+                    </div>
+                    <div id="audioSong" class="col l-12 m-12 c-12 songPlayedControl">
+                        <audio  id="sourceSong" autoplay controls loop>
+                            {% comment %} <source id="sourceSong" src="" type="audio/wav"> {% endcomment %}
+                        </audio>
+                    </div>
+                    <style>
+                        /* khai báo hình bài hát */
+                        :root{
+                            --pseudo-background: url({{ActivedSong.ImageURL}});
+                        }
+                    </style>
+            {% endfor %}
+        {% else %}    
+            <div id="songPlayedImg" class="col l-12 m-12 c-12 songPlayedImg">
+                <img id="songImg" src="{% static "mymusic_home/images/hinhPlayerMusicDefault.jpg" %}" alt="Hình mặc định khi chưa có nhạc phát ...">
+            </div>
+    
+            <div class="col l-12 m-12 c-12 songPlayedLyrics">
+                <div id="lyrics-content">
+                    <h3 style="text-align:center; ">Chưa có bài nào được phát ...</h3>
+                </div>
+            </div>
+            <div id="audioSong" class="col l-12 m-12 c-12 songPlayedControl">
+                <audio  id="sourceSong" autoplay controls loop>
+                    {% comment %} <source id="sourceSong" src="" type="audio/wav"> {% endcomment %}
+                </audio>
+            </div>
+            <style>
+                /* khai báo hình bài hát */
+                :root{
+                    --pseudo-background: url({% static "mymusic_home/images/hinhPlayerMusicDefault.jpg" %});
+                }
+            </style>
+        {% endif %}
+    </div>
 </div>
 
 <style>
@@ -68,6 +156,42 @@
 .buttonComebackInSearch button:hover{
     background: #3b3b3c;
 }
+.btnActivePlaylist{
+    background: black; 
+    cursor: pointer; 
+    border: .5px solid black; 
+    border-radius:50%; 
+    padding: 10px 11px 10px 11px;
+    transition: .3s all;
+}
+.btnActivePlaylist:hover{
+    background: #3b3b3c;
+    border: .5px solid black;
+    transition: .3s all;
+}
+    /* khai báo hình của Active nghệ sĩ */
+    :root{
+        {% for artistInfor in artistsInfors %}
+            --pseudo-backgroundArtist: url({{artistInfor.ImageURL}});
+        {% endfor %}
+    }
+    #DspContainer{
+        background: var(--pseudo-backgroundArtist) 0 0 repeat;
+        background-size: contain;
+        background-position: center;
+        {% comment %} background-repeat: none; {% endcomment %}
+    }
+    #buttonSettingsProfile{
+        background: rgb(55,45,50);
+        background: radial-gradient(circle, rgba(46, 45, 46, 0.447) 0%, rgba(0, 0, 0, 0.896) 100%);
+        backdrop-filter: blur(20px);
+    }
+    .DspHeadContainer{
+        background: rgb(55,45,50);
+        background: radial-gradient(circle, rgba(46, 45, 46, 0.447) 0%, rgba(0, 0, 0, 0.896) 100%);
+        backdrop-filter: blur(20px);
+        border-top: 0.5px solid #1f1f1f;
+    }
 
 </style>
 {% endblock listByArtist %}

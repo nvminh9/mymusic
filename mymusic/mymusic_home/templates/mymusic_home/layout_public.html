@@ -1,6 +1,6 @@
 {% load static %}
 
-<!DOCTYPE html>
+{% comment %} <!DOCTYPE html> {% endcomment %}
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -19,6 +19,27 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500&display=swap" rel="stylesheet">
     <title>mymusic | Express yourself through your music taste</title>
+    <script type="text/javascript">
+        var user = '{{request.user}}'
+
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0;i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    // Does this cookie string begin with the name we want?
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+        const csrftoken = getCookie('csrftoken');
+
+    </script>
 </head>
 <body>
     <div class="grid wide wrapper">
@@ -41,7 +62,7 @@
                         <div class="row profile">
                             <div class="col l-4 m-12 c-12 avatarProfile">
                                 <a href="{% url "profile" %}" id="avatarProfile">
-                                    <img src="{% static '' %}" style="background-color: grey;">
+                                    <img src="{% static 'mymusic_home/images/hinhAvatarDefault.jpg' %}" style="background-color: grey;">
                                 </a>
                             </div>
                             <div class="col l-8 m-12 c-12 nameProfile">
@@ -86,8 +107,6 @@
                 </div>
             </div>
 
-            <!-- Phần Container ở giữa (chứa các nội dung show ra) -->
-            <div id="middleContainer" class="col l-6 m-0 c-0 middleContainer">
                 {% block middleContainer-content %}{% endblock middleContainer-content %}
                 {% block profile %}{% endblock profile %}
                 {% block Dsp %}{% endblock Dsp %}
@@ -96,49 +115,9 @@
                 {% block searchResult %}{% endblock searchResult %}
                 {% block listByGenre %}{% endblock listByGenre %}
                 {% block listByArtist %}{% endblock listByArtist %}
-            </div>
 
             <!-- Phần Container bên phải (chứa miêu tả nhạc) -->
-            <div id="rightContainer" class="col l-3 m-0 c-12 rightContainer">
-                <div class="row songPlayedContainer">
-                    <div id="buttonHideSongPlayerContainer" class="col l-12 m-12 c-12 buttonHideSongPlayerContainer">
-                        Song Player
-                        <button id="buttonHideSongPlayer" class="buttonHideSongPlayer" onclick="HideSongPlayer()"><span class="material-symbols-outlined">
-                            arrow_right
-                        </span></button>
-                        <button id="buttonZoomSongPlayer" class="buttonZoomSongPlayer" onclick="buttonZoomSongPlayer()"><span class="material-symbols-outlined">
-                            zoom_out_map
-                        </span></button>
-                    </div>
-                    {% for resource in songResource %}
-                    <div id="songPlayedImg" class="col l-12 m-12 c-12 songPlayedImg">
-                        <img id="songImg" src="{{resource.ImageURL}}" alt="Hình của bài {{resource.name}}">
-                    </div>
-
-                    <div class="col l-12 m-12 c-12 songPlayedLyrics">
-                        <div id="lyrics-content">
-                            
-                        </div>
-                    </div>
-                    <div id="audioSong" class="col l-12 m-12 c-12 songPlayedControl">
-                        <audio autoplay controls>
-                            <source autoplay src="{{resource.SongURL}}" type="audio/wav">
-                        </audio>
-                        {% comment %} <audio controls>
-                            {% for song in songs %}
-                                <source autoplay src="{{song.SongURL}}" type="audio/wav">
-                            {% endfor %}
-                        </audio> {% endcomment %}
-                    </div>
-                    <style>
-                        /* khai báo hình bài hát */
-                        :root{
-                            --pseudo-background: url({{resource.ImageURL}});
-                        }
-                    </style>
-                    {% endfor %}
-                </div>
-            </div>
+            
         </div>
     </div>
 

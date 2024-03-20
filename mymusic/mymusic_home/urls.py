@@ -5,7 +5,7 @@ from . import views
 
 urlpatterns = [
     path('', views.index),
-    path('home/', views.index, name="home"),
+    path('home/', views.home, name="home"),
     path('home/profile/', views.profile, name="profile"),
     path('home/Dsp/', views.Dsp, name="Dsp"),
     path('home/search/', views.searchPage, name="searchPage"),
@@ -17,5 +17,8 @@ urlpatterns = [
     path('home/search/searchResult/', views.searchResult, name="searchResult"),
     path('home/listByGenre/', views.listByGenre, name="listByGenre"),
     path('home/listByArtist/', views.listByArtist, name="listByArtist"),
+    # path('home/playSong/', views.playSong, name="listByArtist"),
+    path('play_song/', views.activeSong, name="play_song"), 
+    # path('music/', views.activeSong_pem, name="activeSong_pem"),    
 ]
 

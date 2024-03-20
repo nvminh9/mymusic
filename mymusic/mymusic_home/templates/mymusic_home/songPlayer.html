@@ -1,0 +1,77 @@
+{% extends 'mymusic_home/layout_public.html' %}
+{% load static %}
+
+{% block songPlayer %}
+<head>
+    {% for resource in songResource %}
+        <title>mymusic | {{resource.name}}</title>
+    {% endfor %}
+</head>
+<div class="row songPlayedContainer">
+    <div id="buttonHideSongPlayerContainer" class="col l-12 m-12 c-12 buttonHideSongPlayerContainer">
+        Song Player
+        <button id="buttonHideSongPlayer" class="buttonHideSongPlayer" onclick="HideSongPlayer()"><span class="material-symbols-outlined">
+            arrow_right
+        </span></button>
+        <button id="buttonZoomSongPlayer" class="buttonZoomSongPlayer" onclick="buttonZoomSongPlayer()"><span class="material-symbols-outlined">
+            zoom_out_map
+        </span></button>
+    </div>
+    {% if songResource  %}
+        {% for resource in songResource %}
+            <div id="songPlayedImg" class="col l-12 m-12 c-12 songPlayedImg">
+                <img id="songImg" src="{{resource.ImageURL}}" alt="Hình của bài {{resource.name}}">
+            </div>
+
+            <div class="col l-12 m-12 c-12 songPlayedLyrics">
+                <div id="lyrics-content">
+                    
+                </div>
+            </div>
+            <div id="audioSong" class="col l-12 m-12 c-12 songPlayedControl">
+                <audio autoplay controls>
+                    <source id="sourceSong" autoplay src="{{resource.SongURL}}" type="audio/wav">
+                </audio>
+                {% comment %} <audio controls>
+                    {% for song in songs %}
+                        <source autoplay src="{{song.SongURL}}" type="audio/wav">
+                    {% endfor %}
+                </audio> {% endcomment %}
+            </div>
+            <style>
+                /* khai báo hình bài hát */
+                :root{
+                    --pseudo-background: url({{resource.ImageURL}});
+                }
+            </style>
+        {% endfor %}
+    {% else %}
+        <div id="songPlayedImg" class="col l-12 m-12 c-12 songPlayedImg">
+            <img id="songImg" src="{% static "mymusic_home/images/hinhPlayerMusicDefault.jpg" %}" alt="Hình của bài {{resource.name}}">
+        </div>
+
+        <div class="col l-12 m-12 c-12 songPlayedLyrics">
+            <div id="lyrics-content">
+                <h3 style="text-align:center; ">Chưa có bài nào được phát ...</h3>
+            </div>
+        </div>
+        <div id="audioSong" class="col l-12 m-12 c-12 songPlayedControl">
+            <audio autoplay controls>
+                <source id="sourceSong" src="" type="audio/wav">
+            </audio>
+            {% comment %} <audio controls>
+                {% for song in songs %}
+                    <source autoplay src="{{song.SongURL}}" type="audio/wav">
+                {% endfor %}
+            </audio> {% endcomment %}
+        </div>
+        <style>
+            /* khai báo hình bài hát */
+            :root{
+                --pseudo-background: url({% static "mymusic_home/images/hinhPlayerMusicDefault.jpg" %});
+            }
+        </style>
+    {% endif %}                        
+</div>
+
+{% endblock songPlayer %}

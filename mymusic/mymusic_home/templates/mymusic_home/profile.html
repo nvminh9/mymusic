@@ -2,86 +2,178 @@
 {% load static %}
 
 {% block profile %}
-<!-- Button Show Song Player -->
-<div id="buttonShowSongPlayerContainer" class="col l-12 m-12 c-12 buttonShowSongPlayerContainer">
-    <button class="buttonShowSongPlayer" onclick="ShowSongPlayer()"><span class="material-symbols-outlined">
-        arrow_left
-    </span></button>
+<!-- Phần Container ở giữa (chứa các nội dung show ra) -->
+<div id="middleContainer" class="col l-6 m-0 c-0 middleContainer">
+    <!-- Button Show Song Player -->
+    <div id="buttonShowSongPlayerContainer" class="col l-12 m-12 c-12 buttonShowSongPlayerContainer">
+        <button class="buttonShowSongPlayer" onclick="ShowSongPlayer()"><span class="material-symbols-outlined">
+            arrow_left
+        </span></button>
+    </div>
+    <!-- Button Settings -->
+    <div id="buttonSettingsProfile" class="col l-12 m-12 c-12 buttonSettingsProfile" >
+        <button onclick="history.back()" class="btnBack"><span class="material-symbols-outlined">
+            arrow_back
+        </span></button>
+        
+        <a href="{% url "profileSettings" %}" ><span class="material-symbols-outlined">
+            settings
+        </span></a>
+        </div>
+        <!-- Profile Chính -->
+        <div class="row mainProfile">
+        <!-- Ảnh bìa Profile -->
+        <div id="profileBanner" class="col l-12 m-12 c-12 profileBanner">
+            <img src="{% static "mymusic_home/images/hinhBannerDefault.png" %}" alt="">
+        </div>
+        <!-- Hình đại diện và tên Profile -->
+        <div id="profileAvatar" class="col l-12 m-12 c-12 profileAvatar">
+            <div class="row">
+                <div class="col l-3 m-12 c-12 avatar">
+                    <img src="{% static "mymusic_home/images/hinhAvatarDefault.jpg" %}" alt="">
+                </div>
+                <div class="col l-9 m-12 c-12 name">
+                    <div class="row nameUser"><h5>{{request.user}}</h5></div>
+                {% comment %} <div class="row tongDspUser"><h5>Tổng số nhạc đã đăng : ...</h5></div>
+                <div class="row tongNhacUser"><h5>Tổng số danh sách phát : ...</h5></div> {% endcomment %}
+            </div>
+            </div>
+        </div>
+        <!-- Thông tin hồ sơ -->
+        <div class="col l-12 m-12 c-12 profileInfor">
+            <div class="row">
+                <div class="col l-12 m-12 c-12 infor">
+                    <h5 class="profileGender"><b>Họ và Tên : </b>{{request.user.last_name}} {{request.user.first_name}}<h5>
+                    <h5 class="profileBirth"><b>Ngày tạo tài khoản : </b>{{request.user.date_joined}}</h5>
+                    <h5 class="profileEmail"><b>Email : </b>{{request.user.email}}</h5>
+                </div>
+            </div>
+        </div>
+
+        <!-- Danh sách danh sách phát của Người dùng -->
+        <h5 style="padding-left: 16px; margin: 0px; font-size: 20px; font-weight: 600;">Danh sách phát</h5>
+        <div class="col l-12 m-12 c-12 profileDsp">
+            {% if userDsps %}
+                {% for dsp in userDsps %}
+                    {% comment %} Mẫu {% endcomment %}
+                    <div class="col l-4 m-6 c-12 ">
+                        <button class="dspInProfile">
+                            <img src="{{dsp.ImageURL}}" alt="Hình của danh sách phát {{dsp.name}}" style="object-fit:cover;">
+                            <div class="title" style="padding-top:11%;" >
+                                <a href="{% url "Dsp" %}?namePlaylist={{dsp.id_playlist}}" >{{dsp.name}}</a>
+                            </div>
+                        </button>
+                    </div>
+                {% endfor %}
+            {% else %}
+                {% comment %} Mẫu {% endcomment %}
+                <div class="col l-4 m-6 c-12 ">
+                    <button class="dspInProfile">
+                        <img src="{% static '' %}" alt="">
+                        <div class="title">
+                            <h5>Tên Danh Sách Phát</h5>
+                        </div>
+                    </button>
+                </div>
+            {% endif %}
+        </div>
+        <!-- Kết thúc danh sách danh sách phát của người dùng -->
+
+            <!-- Danh sách nhạc của Người dùng -->
+        <h5 style="padding-left: 16px; margin: 0; margin-top: 35px; font-size: 20px; font-weight: 600;">Nhạc đã đăng tải</h5>
+        <div class="col l-12 m-12 c-12 profileMusic">
+            {% if userSongs %}
+                {% for song in userSongs %}
+                    {% comment %} Mẫu {% endcomment %}
+                    <div class="col l-12 m-6 c-12 ">
+                        <button data-song={{song.fileMp3}} data-songimg={{song.image}} data-action="play" class="musicInProfile btnSong">
+                            <img src="{{song.ImageURL}}" alt="Hình của bài {{song.name}}" style="object-fit:cover;">
+                            <div class="title">
+                                <h5>{{song.name}} - Người đăng: <span style="font-weight:300;" >{{song.id_user}}</span></h5>
+                            </div>
+                        </button>
+                    </div>
+                {% endfor %}
+            {% else %}
+                {% comment %} Mẫu {% endcomment %}
+                <div class="col l-12 m-6 c-12 ">
+                    <button class="musicInProfile">
+                        <img src="{% static '' %}" alt="">
+                        <div class="title">
+                            <h5>Tên Bài Hát - Nghệ Sĩ</h5>
+                        </div>
+                    </button>
+                </div>
+            {% endif %}
+        </div>
+        <!-- Kết thúc danh sách nhạc của người dùng -->
+
+        </div>
+        <script src="assets/js/home.js"></script>
+        <script src="assets/js/slideShow.js"></script>
+        <script src="assets/js/songPlayer.js"></script>
 </div>
-<!-- Button Settings -->
-<div id="buttonSettingsProfile" class="col l-12 m-12 c-12 buttonSettingsProfile" >
-       <button onclick="history.back()" class="btnBack"><span class="material-symbols-outlined">
-        arrow_back
-       </span></button>
-       
-       <a href="{% url "profileSettings" %}" ><span class="material-symbols-outlined">
-        settings
-       </span></a>
+
+<!-- Phần Container bên phải (chứa miêu tả nhạc) -->
+<div id="rightContainer" class="col l-3 m-0 c-12 rightContainer">
+    {% comment %} Song Player {% endcomment %}
+    {% comment %} {% block songPlayer %}{% endblock songPlayer %} {% endcomment %}
+    {% comment %} end Song Player {% endcomment %}
+    <div class="row songPlayedContainer">
+        <div id="buttonHideSongPlayerContainer" class="col l-12 m-12 c-12 buttonHideSongPlayerContainer">
+            Song Player
+            <button id="buttonHideSongPlayer" class="buttonHideSongPlayer" onclick="HideSongPlayer()"><span class="material-symbols-outlined">
+                arrow_right
+            </span></button>
+            <button id="buttonZoomSongPlayer" class="buttonZoomSongPlayer" onclick="buttonZoomSongPlayer()"><span class="material-symbols-outlined">
+                zoom_out_map
+            </span></button>
+        </div>
+        {% if thatSongResource %}
+            {% for ActivedSong in thatSongResource %}
+                    <div id="songPlayedImg" class="col l-12 m-12 c-12 songPlayedImg">
+                        <img id="songImg" src="{{ActivedSong.ImageURL}}" alt="Hình của bài {{ActivedSong.name}}">
+                    </div>
+        
+                    <div class="col l-12 m-12 c-12 songPlayedLyrics">
+                        <div id="lyrics-content">
+                            <h3 style="text-align:center; ">...</h3>
+                        </div>
+                    </div>
+                    <div id="audioSong" class="col l-12 m-12 c-12 songPlayedControl">
+                        <audio  id="sourceSong" autoplay controls loop>
+                            {% comment %} <source id="sourceSong" src="" type="audio/wav"> {% endcomment %}
+                        </audio>
+                    </div>
+                    <style>
+                        /* khai báo hình bài hát */
+                        :root{
+                            --pseudo-background: url({{ActivedSong.ImageURL}});
+                        }
+                    </style>
+            {% endfor %}
+        {% else %}    
+            <div id="songPlayedImg" class="col l-12 m-12 c-12 songPlayedImg">
+                <img id="songImg" src="{% static "mymusic_home/images/hinhPlayerMusicDefault.jpg" %}" alt="Hình mặc định khi chưa có nhạc phát ...">
+            </div>
+    
+            <div class="col l-12 m-12 c-12 songPlayedLyrics">
+                <div id="lyrics-content">
+                    <h3 style="text-align:center; ">Chưa có bài nào được phát ...</h3>
+                </div>
+            </div>
+            <div id="audioSong" class="col l-12 m-12 c-12 songPlayedControl">
+                <audio  id="sourceSong" autoplay controls loop>
+                    {% comment %} <source id="sourceSong" src="" type="audio/wav"> {% endcomment %}
+                </audio>
+            </div>
+            <style>
+                /* khai báo hình bài hát */
+                :root{
+                    --pseudo-background: url({% static "mymusic_home/images/hinhPlayerMusicDefault.jpg" %});
+                }
+            </style>
+        {% endif %}
     </div>
-    <!-- Profile Chính -->
-    <div class="row mainProfile">
-       <!-- Ảnh bìa Profile -->
-       <div id="profileBanner" class="col l-12 m-12 c-12 profileBanner">
-           <img src="{% static "" %}" alt="">
-       </div>
-       <!-- Hình đại diện và tên Profile -->
-       <div id="profileAvatar" class="col l-12 m-12 c-12 profileAvatar">
-           <div class="row">
-               <div class="col l-3 m-12 c-12 avatar">
-                   <img src="./assets/img/profileAvatar.png" alt="">
-              </div>
-             <div class="col l-9 m-12 c-12 name">
-                <div class="row nameUser"><h5>{{request.user}}</h5></div>
-               {% comment %} <div class="row tongDspUser"><h5>Tổng số nhạc đã đăng : ...</h5></div>
-              <div class="row tongNhacUser"><h5>Tổng số danh sách phát : ...</h5></div> {% endcomment %}
-         </div>
-           </div>
-      </div>
-      <!-- Thông tin hồ sơ -->
-      <div class="col l-12 m-12 c-12 profileInfor">
-          <div class="row">
-              <div class="col l-12 m-12 c-12 infor">
-                <h5 class="profileGender"><b>Họ và Tên : </b>{{request.user.last_name}} {{request.user.first_name}}<h5>
-                <h5 class="profileBirth"><b>Ngày tạo tài khoản : </b>{{request.user.date_joined}}</h5>
-                <h5 class="profileEmail"><b>Email : </b>{{request.user.email}}</h5>
-              </div>
-          </div>
-      </div>
-
-       <!-- Danh sách danh sách phát của Người dùng -->
-      <h5 style="padding-left: 16px; margin: 0px; font-size: 20px; font-weight: 600;">Danh sách phát</h5>
-      <div class="col l-12 m-12 c-12 profileDsp">
-        {% comment %} Mẫu {% endcomment %}
-          <div class="col l-4 m-6 c-12 ">
-              <button class="dspInProfile">
-                  <img src="{% static '' %}" alt="">
-                  <div class="title">
-                      <h5>Tên Danh Sách Phát</h5>
-                  </div>
-              </button>
-          </div>
-      </div>
-      <!-- Kết thúc danh sách danh sách phát của người dùng -->
-
-           <!-- Danh sách nhạc của Người dùng -->
-      <h5 style="padding-left: 16px; margin: 0; margin-top: 35px; font-size: 20px; font-weight: 600;">Nhạc đã đăng tải</h5>
-      <div class="col l-12 m-12 c-12 profileMusic">
-        {% comment %} Mẫu {% endcomment %}
-          <div class="col l-12 m-6 c-12 ">
-              <button class="musicInProfile">
-                  <img src="{% static '' %}" alt="">
-                  <div class="title">
-                      <h5>Tên Bài Hát - Nghệ Sĩ</h5>
-                  </div>
-              </button>
-          </div>
-          
-      </div>
-      <!-- Kết thúc danh sách nhạc của người dùng -->
-
-    </div>
-    <script src="assets/js/home.js"></script>
-    <script src="assets/js/slideShow.js"></script>
-    <script src="assets/js/songPlayer.js"></script>
-
+</div>
 {% endblock profile %}

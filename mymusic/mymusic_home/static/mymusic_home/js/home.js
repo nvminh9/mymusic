@@ -410,14 +410,14 @@ function buttonZoomOutSongPlayer(){
     +'<button id="buttonZoomSongPlayer" class="buttonZoomSongPlayer" onclick="buttonZoomSongPlayer()"><span class="material-symbols-outlined">'
     +    'zoom_out_map'
     +'</span></button>';
-    brrightContainer.style.borderRadius = '0px 10px 10px 0px';
+    // brrightContainer.style.borderRadius = '0px 10px 10px 0px';
     songImg.style.width = "100%";
     songImg.style.height = "100%";
     audioSong.classList.replace('l-4','l-12')
     audioSong.classList.remove('l-o-4')
     audioSong.style.borderRadius = "0px";
-    rightContainer.style.borderRadius = "0px 10px 10px 0px"
-    body.style.padding = "8px"
+    // rightContainer.style.borderRadius = "0px 10px 10px 0px"
+    // body.style.padding = "8px"
     // buttonHideSongPlayer.style.display = 'block';
 }
 

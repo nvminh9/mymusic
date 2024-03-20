@@ -3,6 +3,7 @@ from django.urls import reverse
 from django.contrib.auth.models import User
 from django.db.models import UniqueConstraint # Constrains fields to unique values
 from django.contrib.auth.forms import UserCreationForm
+import datetime
 
 # Create your models here.
 
@@ -19,6 +20,7 @@ class artist(models.Model):
     is_sub = models.BooleanField(default=False)
     # tên nghệ sĩ
     name = models.CharField(max_length=200, default = 'nameArtist')
+    description = models.TextField(max_length=1000, null=True, blank=True)
     slug = models.SlugField(max_length=200, unique=True, default = 'slugArtist')
     image = models.ImageField(null=True, blank=True)
     # name = models.CharField(max_length=200, help_text="Nhập vào tên nghệ sĩ ...", unique=True)
@@ -90,8 +92,9 @@ class song(models.Model):
     artist = models.ManyToManyField(artist,related_name='songArtist')
     id_user = models.ForeignKey(User, on_delete=models.CASCADE, blank=False, null=True)
     name = models.CharField(max_length=200, help_text="Nhập vào tên bài hát ...")
-    image = models.ImageField(null=True, blank=True)
+    image = models.FileField(null=True, blank=True)
     fileMp3 = models.FileField(null=True, blank=True)
+    create_date = models.DateTimeField(auto_now_add=True)
     # image = models.ImageField()
     
     def __str__(self):
@@ -103,6 +106,12 @@ class song(models.Model):
         except:
             url = ''
         return url
+    # def ImageString(self):
+    #     try:
+    #         imgStr = str.format(self.image)
+    #     except:
+    #         imgStr = ''
+    #     return imgStr
     def SongURL(self):
         try:
             url = self.fileMp3.url
