@@ -35,7 +35,7 @@
     <div class="row DspBody">
         {% comment %} Bài trong Dsp {% endcomment %}
         {% for song in genresSong %}
-        <button data-song={{song.id_song}} data-songimg={{song.image}} data-action="play" class="col l-12 m-12 c-12 DspSong btnSong">
+        <button data-song={{song.fileMp3}} data-songimg={{song.image}} data-action="play" class="col l-12 m-12 c-12 DspSong btnSong">
             <div class="row">
                 <div class="col l-4 m-3 c-3 DspSongImg">
                     <img src="{{song.ImageURL}}" alt="{{song.name}}">
