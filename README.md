@@ -15,6 +15,9 @@
   
 **Trang web đang trong quá trình hoàn thiện ...**
 
+**Đang cập nhật thêm vài tính năng như đăng bài có thể sử dụng nhạc của mình
+** hoặc của người khác, đăng story,...
+
 **English:**
 
   **After downloading, you need to do the following to run it:**
