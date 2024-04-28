@@ -34,3 +34,4 @@
 Finally, go to the browser and type **127.0.0.1:8000** to check.
 
 **This website is in progressing...
+Hello world !
